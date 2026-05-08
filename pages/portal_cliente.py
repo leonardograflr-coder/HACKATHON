@@ -928,7 +928,7 @@ def render_portafolio():
             """, unsafe_allow_html=True)
 
     st.markdown("---")
-    col1,col2,col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     with col1:
         if st.button("🔄 Cambiar perfil de inversión", type="primary", use_container_width=True, key="cambiar_perfil"):
             escenario = st.session_state.get("escenario_demo","libre")
@@ -941,9 +941,6 @@ def render_portafolio():
         if st.button("📊 Reasignar portafolio", use_container_width=True, key="reasignar_portafolio"):
             activar_chatbot("ERR007","Mi Portafolio")
             st.rerun()
-    with col3:
-        if st.button("🚪 Cerrar sesión", use_container_width=True, key="logout_portafolio"):
-            _cerrar_sesion()
 
     # ERR011 interactive flow
     if st.session_state.get("error_id_actual") == "ERR011":
