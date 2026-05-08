@@ -239,40 +239,27 @@ def render_tecnico():
 
 
 def _resolver_caso(cliente, fp, agente, error, error_id):
-    """Maneja el cierre exitoso del caso por el técnico."""
-    from modules.notificaciones import generar_correos_resolucion, render_correos_simulados
-
-    # Módulo destino basado en el error resuelto
+    """Cierra el caso y redirige al cliente al módulo correspondiente de inmediato."""
     destino_map = {
         "ERR009": "cuentas",
         "ERR001": "cuentas",
         "ERR011": "portafolio",
     }
     destino = destino_map.get(error_id, "portal")
-    destino_label = {
-        "cuentas": "Cuentas Bancarias",
-        "portafolio": "Mi Portafolio",
-        "portal": "Mi Portal",
-    }.get(destino, "Mi Portal")
 
     log = registrar_accion_log(f"Técnico marcó caso como RESUELTO — {error_id}")
     st.session_state.setdefault("chatbot_log", []).append(log)
-    st.session_state["tecnico_conectado"] = False
-    st.session_state["chatbot_activo"] = False
-    st.session_state["chatbot_resuelto"] = True
 
-    # Marcar SARLAFT como resuelto para permitir re-inscripción
+    st.session_state["tecnico_conectado"] = False
+    st.session_state["chatbot_activo"]    = False
+    st.session_state["chatbot_resuelto"]  = True
+    st.session_state["current_page"]      = destino
+
     if error_id == "ERR009":
         st.session_state["sarlaft_resuelto"] = True
+        st.session_state["cuentas_paso"]     = "formulario"
 
-    solucion = f"El técnico {agente.get('nombre','N/A')} validó y resolvió el error {error_id}: {error.get('titulo','')}."
-    correos = generar_correos_resolucion(cliente, fp, agente, {}, solucion)
-    render_correos_simulados(correos, "Ver notificaciones de cierre enviadas")
-
-    st.success(f"✅ **Caso resuelto.** Redirigiendo a {destino_label}…")
-    if st.button(f"↩ Ir a {destino_label}", key="back_modulo_resuelto", type="primary", use_container_width=True):
-        st.session_state["current_page"] = destino
-        st.rerun()
+    st.rerun()
 
 
 def _escalar_caso(cliente, fp, error, error_id, informe):

@@ -29,7 +29,7 @@ SKANDIA_LOGO_SVG = """
 </svg>
 """
 
-def _make_logo_html() -> str:
+def _make_logo_html(height: int = 40) -> str:
     """Carga el logo PNG real de Skandia en base64; si no existe, usa el SVG de respaldo."""
     import base64, os
     for path in [r"C:\Users\wreyes\Desktop\HACKATHON\skandia.png", "skandia.png"]:
@@ -40,14 +40,17 @@ def _make_logo_html() -> str:
                 return (
                     '<div style="display:inline-flex;align-items:center;gap:10px;">'
                     f'<img src="data:image/png;base64,{b64}" '
-                    'style="height:40px;width:auto;object-fit:contain;" alt="Skandia">'
+                    f'style="height:{height}px;width:auto;object-fit:contain;" alt="Skandia">'
                     "</div>"
                 )
             except Exception:
                 pass
-    # SVG fallback
-    return """<div style="display:inline-flex;align-items:center;gap:10px;">
-  <svg width="38" height="38" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    # SVG fallback — escala proporcional
+    sw = int(height * 1.0)
+    fs_brand = int(height * 0.50)
+    fs_sub   = int(height * 0.25)
+    return f"""<div style="display:inline-flex;align-items:center;gap:10px;">
+  <svg width="{sw}" height="{sw}" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="22" cy="22" r="22" fill="#00D261"/>
     <path d="M22 8 C22 8 10 14 10 24 C10 31 15.5 36 22 36 C28.5 36 34 31 34 24 C34 14 22 8 22 8 Z"
           fill="white" opacity="0.95"/>
@@ -57,13 +60,14 @@ def _make_logo_html() -> str:
     <path d="M17 26 C19 24 23 23 26 22" stroke="#00D261" stroke-width="1.2" stroke-linecap="round"/>
   </svg>
   <div style="line-height:1.15;">
-    <div style="font-size:19px;font-weight:800;color:#2D2926;letter-spacing:-0.03em;">skandia</div>
-    <div style="font-size:9.5px;font-weight:600;color:#6B6560;letter-spacing:0.12em;text-transform:uppercase;">colombia</div>
+    <div style="font-size:{fs_brand}px;font-weight:800;color:#2D2926;letter-spacing:-0.03em;">skandia</div>
+    <div style="font-size:{fs_sub}px;font-weight:600;color:#6B6560;letter-spacing:0.12em;text-transform:uppercase;">colombia</div>
   </div>
 </div>"""
 
 
-SKANDIA_LOGO_HTML = _make_logo_html()
+SKANDIA_LOGO_HTML       = _make_logo_html(40)
+SKANDIA_LOGO_HTML_LARGE = _make_logo_html(80)
 
 # ── CSS Global ───────────────────────────────────────────────────────────────
 SKANDIA_CSS = """

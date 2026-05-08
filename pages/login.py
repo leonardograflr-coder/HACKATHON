@@ -80,10 +80,11 @@ def _render_form_credenciales():
                     box-shadow:0 4px 24px rgba(0,0,0,0.10);max-width:460px;margin:auto;">
         """, unsafe_allow_html=True)
 
-        from config.brand import SKANDIA_LOGO_HTML as _LOGO
+        from config.brand import SKANDIA_LOGO_HTML_LARGE as _LOGO_L
         st.markdown(f"""
-        <div style="text-align:center;margin-bottom:20px;">
-            {_LOGO}
+        <div style="text-align:center;margin-bottom:24px;padding-bottom:8px;
+                    border-bottom:1px solid #F0F0F0;">
+            {_LOGO_L}
         </div>
         """, unsafe_allow_html=True)
 

@@ -20,7 +20,7 @@ from data.clientes_demo import CLIENTES_DEMO, get_fp_by_id
 # Escenario → cliente + error + página de inicio
 ESCENARIOS_CONFIG = {
     "A": {"cliente_idx": 0, "error_id": "ERR001", "pagina": "retiros"},
-    "B": {"cliente_idx": 1, "error_id": "ERR009", "pagina": "retiros"},
+    "B": {"cliente_idx": 1, "error_id": "ERR009", "pagina": "portal"},
     "C": {"cliente_idx": 2, "error_id": "ERR011", "pagina": "portafolio"},
 }
 
